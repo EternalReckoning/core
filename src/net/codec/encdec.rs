@@ -137,7 +137,7 @@ pub fn decode_sv_update_world(header: &Header, buf: &mut BytesMut)
         let mut component_data = Vec::new();
         for _ in 0..component_count {
             match decode_entity_component(&mut data) {
-                Ok(Some((size, component))) => {
+                Ok(Some((_size, component))) => {
                     component_data.push(component);
                 },
                 Ok(None) => return Ok(None),

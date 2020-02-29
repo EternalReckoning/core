@@ -1,10 +1,10 @@
-use bytes::BytesMut;
+use bytes::{Buf, BytesMut};
 use failure::Error;
 use lazy_static::lazy_static;
-use tokio::codec::{Decoder, Encoder};
+use tokio_util::codec::{Decoder, Encoder};
 
 #[cfg(test)]
-use bytes::{Buf, BufMut};
+use bytes::BufMut;
 
 use crate::net::operation::Operation;
 
@@ -98,7 +98,7 @@ impl Decoder for EternalReckoningCodec {
                     match result {
                         Ok(None) => return Ok(None),
                         Ok(Some(op)) => {
-                            buf.split_to(HEADER_SIZE + header.size);
+                            buf.advance(HEADER_SIZE + header.size);
                             return Ok(Some(op));
                         },
                         Err(err) => {
